@@ -2,7 +2,7 @@ import chainlit as cl
 import httpx
 import logging
 import sys
-
+import os
 # =========================================================
 # CLOUDWATCH LOGGING CONFIGURATION
 # =========================================================
@@ -13,7 +13,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger("CHATBOT")
 
-LAMBDA_URL = "https://h2hyz4mqjmlrp5fjhdpj65hiji0dxbyo.lambda-url.us-west-2.on.aws/"
+LLM_AGENT_URL = os.environ.get("LLM_AGENT_URL", "https://h2hyz4mqjmlrp5fjhdpj65hiji0dxbyo.lambda-url.us-west-2.on.aws/")
+
 SESSION_MEMORY = {}
 
 @cl.on_message
@@ -37,7 +38,7 @@ async def main(message: cl.Message):
         async with httpx.AsyncClient(timeout=60.0) as client:
             logger.info(f"Calling Lambda for User({user_id})...")
             
-            response = await client.post(LAMBDA_URL, json=payload)
+            response = await client.post(LLM_AGENT_URL, json=payload)
             
             # Log the raw response for CloudWatch debugging
             logger.info(f"Lambda Response Status: {response.status_code}")
