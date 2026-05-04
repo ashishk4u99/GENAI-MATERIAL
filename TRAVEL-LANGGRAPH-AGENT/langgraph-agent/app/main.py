@@ -30,8 +30,10 @@ async def chat(payload: dict = Body(...)):
                 graph.invoke(None, config)
 
         elif action == "confirm_booking":
-            # Moves graph from breakpoint to END
-            graph.invoke(None, config)
+            graph.invoke(
+                Command(resume={"approved": True}),
+                config
+            )
 
         elif action == "retrieve":
             pass 

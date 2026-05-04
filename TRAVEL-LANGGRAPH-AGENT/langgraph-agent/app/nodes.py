@@ -126,3 +126,12 @@ def booking_node(state: TravelState):
         "booking_reference": ref_id,
         "is_booked": True
     }
+    
+from langgraph.types import interrupt
+def review_itinerary(state):
+    return interrupt({
+        "message": "Please confirm booking",
+        "flight": state.get("selected_flight_price"),
+        "hotel": state.get("selected_hotel_price"),
+        "remaining": state.get("remaining_budget")
+    })

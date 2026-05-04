@@ -19,8 +19,8 @@ builder.add_node("budget_check", budget_check_node)
 builder.add_node("supervisor", supervisor_node)
 builder.add_node("budget_warning", budget_warning_node)
 builder.add_node("activities", activity_agent)
-builder.add_node("review_itinerary", lambda state: state) # 👈 Just a placeholder
 builder.add_node("booking_node", booking_node)
+builder.add_node("review_itinerary", review_itinerary)
 
 # 2. UPDATE THE EDGES
 builder.set_entry_point("processor")
@@ -45,6 +45,5 @@ builder.add_edge("booking_node", END)
 # 3. UPDATE THE INTERRUPT
 memory = MemorySaver()
 graph = builder.compile(
-    checkpointer=memory, 
-    interrupt_before=["booking_node"] # 🚨 The graph stops HERE. 
+    checkpointer=memory
 )
